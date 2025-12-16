@@ -1,0 +1,15 @@
+{
+  "code": "00981A",
+  "source_url": "https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW",
+  "data_date": null,
+  "snapshot_date": null,
+  "scraped_at": null,
+  "columns": [
+    "提示"
+  ],
+  "rows": [
+    {
+      "提示": "尚未抓取資料（請先到 GitHub Actions 手動 Run workflow 一次）"
+    }
+  ]
+}

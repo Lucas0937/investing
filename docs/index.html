@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ETF 全持股看板（00980A / 00981A / 00982A）</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>ETF 全持股看板</h1>
+    <p class="muted">00980A / 00981A / 00982A｜全持股 + 與前一日比較的持股變動</p>
+  </header>
+
+  <main class="container card">
+    <div class="row">
+      <label for="etfSelect">選擇 ETF：</label>
+      <select id="etfSelect"></select>
+
+      <div class="tabs" role="tablist" aria-label="View Tabs">
+        <button class="tab active" data-tab="holdings">全持股</button>
+        <button class="tab" data-tab="changes">持股變動</button>
+      </div>
+
+      <button id="reloadBtn" title="重新載入">重新載入</button>
+    </div>
+
+    <div class="meta">
+      <div><span class="muted">資料日期：</span><span id="dataDate">-</span></div>
+      <div><span class="muted">更新時間：</span><span id="scrapedAt">-</span></div>
+      <div><span class="muted">持股筆數：</span><span id="rowCount">-</span></div>
+      <div><span class="muted">比較基準：</span><span id="compareInfo">-</span></div>
+    </div>
+
+    <section id="panel-holdings" class="panel">
+      <div class="tableWrap">
+        <table id="holdingsTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-changes" class="panel hidden">
+      <div class="chips" id="changeChips"></div>
+      <div class="tableWrap">
+        <table id="changesTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnote muted">
+        變動規則：以「代號（或名稱）」對齊，計算權重/股數差（若欄位存在）。
+      </p>
+    </section>
+
+    <p class="footnote muted">
+      若某天無法更新，多半是官網版型/反爬機制調整。此專案已用 Playwright 做「瀏覽器渲染後再抓表格」，穩定度高；
+      若仍遇到阻擋，建議改成抓基金公司提供的「PCF/投資組合檔（CSV）」。
+    </p>
+  </main>
+
+  <footer class="container muted">
+    <small>GitHub Pages + GitHub Actions（每日自動更新）</small>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "code": "00982A",
+  "source_url": "https://www.capitalfund.com.tw/etf/product/detail/399/portfolio",
+  "data_date": null,
+  "snapshot_date": null,
+  "scraped_at": null,
+  "columns": [
+    "提示"
+  ],
+  "rows": [
+    {
+      "提示": "尚未抓取資料（請先到 GitHub Actions 手動 Run workflow 一次）"
+    }
+  ]
+}
