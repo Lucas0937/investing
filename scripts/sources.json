@@ -1,14 +1,14 @@
-{
   "00980A": {
     "type": "playwright_html",
-    "url": "https://www.nomurafunds.com.tw/ETFWEB/product-description?fundNo=00980A&tab=Shareholding"
+    "url": "https://www.nomurafunds.com.tw/ETFWEB/product-description?fundNo=00980A&tab=Shareholding",
+    "expand": true
   },
   "00981A": {
     "type": "playwright_html",
-    "url": "https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW"
+    "url": "https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW",
+    "expand": true
   },
   "00982A": {
     "type": "playwright_html",
-    "url": "https://www.capitalfund.com.tw/etf/product/detail/399/portfolio"
-  }
-}
+    "url": "https://www.capitalfund.com.tw/etf/product/detail/399/portfolio",
+    "expand": true
