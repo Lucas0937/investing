@@ -130,16 +130,16 @@ def fetch_holdings_from_source(cfg: Dict[str, Any]) -> Tuple[Optional[str], List
     data_date: Optional[str] = None
 
     if typ == "playwright_html":
-       html_list = render_html_playwright(url, expand=bool(cfg.get("expand", True)))
-        for html in html_list:
-            text = _html_text(html)
-            if data_date is None:
-                data_date = extract_date_from_text(text)
-            try:
-                dfs = pd.read_html(html)
-                all_dfs.extend(dfs)
-            except Exception:
-                continue
+          html_list = render_html_playwright(url, expand=bool(cfg.get("expand", True)))
+    for html in html_list:
+        text = _html_text(html)
+        if data_date is None:
+            data_date = extract_date_from_text(text)
+        try:
+            dfs = pd.read_html(html)
+            all_dfs.extend(dfs)
+        except Exception:
+            continue
 
         if not all_dfs:
             raise RuntimeError("No tables found after rendering/expanding.")
