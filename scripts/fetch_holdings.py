@@ -75,7 +75,53 @@ def normalize_df(df: pd.DataFrame) -> pd.DataFrame:
     df = df.where(pd.notnull(df), None)
     return df
 
+def render_html_playwright(url: str, expand: bool = True) -> str:
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
+        context = browser.new_context(user_agent=UA, locale="zh-TW", timezone_id="Asia/Taipei")
+        page = context.new_page()
 
+        page.goto(url, wait_until="load", timeout=90000)
+        page.wait_for_timeout(6000)
+
+        if expand:
+            labels = ["查看更多", "看更多", "更多", "展開", "完整持股", "全部持股", "持股明細", "Portfolio"]
+            for label in labels:
+                loc = page.locator(f"text={label}")
+                try:
+                    cnt = loc.count()
+                except Exception:
+                    cnt = 0
+                if cnt == 0:
+                    continue
+
+                for i in range(min(cnt, 3)):
+                    el = loc.nth(i)
+                    try:
+                        # 新分頁
+                        try:
+                            with context.expect_page(timeout=1500) as pop:
+                                el.click(timeout=1500)
+                            newp = pop.value
+                            newp.wait_for_load_state("load", timeout=30000)
+                            newp.wait_for_timeout(2500)
+                            page = newp
+                            break
+                        except Exception:
+                            pass
+
+                        # 同頁展開/彈窗
+                        el.click(timeout=1500)
+                        page.wait_for_timeout(2500)
+                        break
+                    except Exception:
+                        continue
+                break
+
+        html = page.content()
+        context.close()
+        browser.close()
+        return html
 def fetch_holdings_from_source(cfg: Dict[str, Any]) -> Tuple[Optional[str], List[str], List[Dict[str, Any]]]:
     typ = cfg.get("type", "playwright_html")
     url = cfg["url"]
