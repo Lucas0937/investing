@@ -129,22 +129,45 @@ def fetch_holdings_from_source(cfg: Dict[str, Any]) -> Tuple[Optional[str], List
     all_dfs: List[pd.DataFrame] = []
     data_date: Optional[str] = None
 
-    if typ == "playwright_html":
-          html_list = render_html_playwright(url, expand=bool(cfg.get("expand", True)))
-    for html in html_list:
-        text = _html_text(html)
-        if data_date is None:
-            data_date = extract_date_from_text(text)
-        try:
-            dfs = pd.read_html(html)
-            all_dfs.extend(dfs)
-        except Exception:
-            continue
+        if typ == "playwright_html":
+        html_list = render_html_playwright(url, expand=bool(cfg.get("expand", True)))
+
+        for html in html_list:
+            text = _html_text(html)
+            if data_date is None:
+                data_date = extract_date_from_text(text)
+            try:
+                dfs = pd.read_html(html)
+                all_dfs.extend(dfs)
+            except Exception:
+                continue
 
         if not all_dfs:
             raise RuntimeError("No tables found after rendering/expanding.")
 
         df = normalize_df(pick_holdings_table(all_dfs))
+
+    elif typ == "html":
+        r = requests.get(url, headers={"User-Agent": UA}, timeout=60)
+        r.raise_for_status()
+        html = r.text
+        text = _html_text(html)
+        data_date = extract_date_from_text(text)
+        all_dfs = pd.read_html(html)
+        df = normalize_df(pick_holdings_table(all_dfs))
+
+    elif typ == "csv":
+        csv_text = fetch_csv(url)
+        from io import StringIO
+        df = pd.read_csv(StringIO(csv_text))
+        df = normalize_df(df)
+        data_date = None
+
+    else:
+        raise ValueError(f"Unknown source type: {typ}")
+
+    rows = df.to_dict(orient="records")
+    return data_date, list(df.columns), rows
 
     elif typ == "html":
         r = requests.get(url, headers={"User-Agent": UA}, timeout=60)
