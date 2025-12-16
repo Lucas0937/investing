@@ -1,3 +1,4 @@
+{
   "00980A": {
     "type": "playwright_html",
     "url": "https://www.nomurafunds.com.tw/ETFWEB/product-description?fundNo=00980A&tab=Shareholding",
@@ -12,3 +13,5 @@
     "type": "playwright_html",
     "url": "https://www.capitalfund.com.tw/etf/product/detail/399/portfolio",
     "expand": true
+  }
+}
